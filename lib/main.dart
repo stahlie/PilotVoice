@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './CustomScreen.dart';
 
 void main() => runApp(MyApp());
 
@@ -8,6 +9,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'PilotVoice',
       theme: ThemeData(
         // This is the theme of your application.
@@ -32,7 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 1;
   final _widgetOptions = [
     Text('Index 0: Home'),
-    Text('Index 1: Custom'),
+    CustomScreen(),
     Text('Index 2: Script'),
   ];
 
@@ -40,6 +42,16 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        // Menu icon on Appbar
+        leading: IconButton(
+          icon: Icon(
+            Icons.menu,
+            semanticLabel: 'menu',
+          ),
+          onPressed: () {
+            print('Menu button');
+          },
+        ),
         title: Text('PilotVoice'),
       ),
       body: Center(
