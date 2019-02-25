@@ -9,6 +9,9 @@ class CustomScreen extends StatelessWidget {
         child: new Column(
 
           children: <Widget>[
+            SizedBox(
+              height: 20.0,
+            ),
             Card(
               color: Colors.white,
               elevation: 10.0,
@@ -34,6 +37,9 @@ class CustomScreen extends StatelessWidget {
                   ],
                 ),
               ),
+            ),
+            SizedBox(
+              height: 10.0,
             ),
             Card(
               color: Colors.white,
@@ -61,6 +67,9 @@ class CustomScreen extends StatelessWidget {
                 ),
               ),
             ),
+            SizedBox(
+              height: 10.0,
+            ),
             Card(
               color: Colors.white,
               elevation: 10.0,
@@ -86,6 +95,9 @@ class CustomScreen extends StatelessWidget {
                   ],
                 ),
               ),
+            ),
+            SizedBox(
+              height: 10.0,
             ),
             Card(
               color: Colors.white,
