@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import './CustomScreen.dart';
 
+// TODO: Need to add drawer menu
+// TODO: fix the airport dropdown menu list
+// TODO: add the rest in customscreen dropdown menu
+
 void main() => runApp(MyApp());
 
 
