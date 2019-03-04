@@ -2,27 +2,28 @@ import 'package:flutter/material.dart';
 import './CustomScreen.dart';
 
 // TODO: Need to add drawer menu
-// TODO: fix the airport dropdown menu list
-// TODO: add the rest in customscreen dropdown menu
+
 
 void main() => runApp(MyApp());
 
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
+    Widget build(BuildContext context) {
+      return  MaterialApp(
+        debugShowCheckedModeBanner: false,
       title: 'PilotVoice',
       theme: ThemeData(
         // This is the theme of your application.
-
-        primarySwatch: Colors.blue,
+       primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: 'PilotVoice'),
+
     );
-  }
+
+    }
 }
 
 class MyHomePage extends StatefulWidget {

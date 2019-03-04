@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+//import 'package:package_info/package_info.dart';
 
-//import 'package:pilotvoice/main.dart';
 
 
 //   TODO: Need to change this from StatelessWidget to StatefulWidget
@@ -27,7 +27,7 @@ class CustomScreenState extends State<CustomScreen>  {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: new Center(
+      body:  new Center(
         child: new Column(
           children: <Widget>[
 
@@ -42,18 +42,23 @@ class CustomScreenState extends State<CustomScreen>  {
               ),
               child: Container(
                 height: 60.0,
-                width: 325.0,
+                //width: 325.0,
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                      Center (
 
                       child: new DropdownButton<String>(
-                        onChanged: (String newVal) {
+
+                        onChanged: (String airportVal) {
 
                           setState(() {
-                            selectedAirport = newVal;
 
-                            print("Selected: ${selectedAirport}");
+                            selectedAirport = airportVal;
+
+                            print("Selected: $selectedAirport");
                           });
                         },
                         value: selectedAirport,
@@ -65,37 +70,29 @@ class CustomScreenState extends State<CustomScreen>  {
                           }).toList(),
                           hint: Text("Airport"),
 
-
-
-
                         ),
                     ),
 
                       new DropdownButton<String>(
+
                         onChanged: (String newVal) {
 
                           setState(() {
                             selectedHeading = newVal;
-                            print("Selected: ${selectedHeading}");
+                            print("Selected: $selectedHeading");
                           });
                         },
                         value: selectedHeading,
-                        items: <String>['18', '36', '16', '35', '17', '35', '13', '31', '8', '26', '14', '32'].map<DropdownMenuItem<String>>((String value) {
+                        items: <String>['18', '36', '16', '35', '17', '13', '31', '8', '26', '14', '32'].map<DropdownMenuItem<String>>((String value) {
                           return new DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),
                           );
                         }).toList(),
                         hint: Text("Heading"),
-
-
-
-                      ),
-
-
+                     ),
                   ],
-
-                ),
+                 ),
               ),
             ),
             SizedBox(
@@ -109,16 +106,19 @@ class CustomScreenState extends State<CustomScreen>  {
               ),
               child: Container(
                 height: 60.0,
-                width: 325.0,
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+               // width: 325.0,
                 child: Row(
                   children: <Widget>[
+
                     Expanded (
+
                       child: new DropdownButton<String>(
                         onChanged: (String newVal) {
 
                           setState(() {
                             selectedAircraft = newVal;
-                            print("Selected: ${selectedAircraft}");
+                            print("Selected: $selectedAircraft");
                           });
                         },
                         value: selectedAircraft,
@@ -130,6 +130,7 @@ class CustomScreenState extends State<CustomScreen>  {
                         }).toList(),
                         hint: Text("Aircraft"),
 
+
                       ),
                     ),
                   ],
@@ -147,16 +148,16 @@ class CustomScreenState extends State<CustomScreen>  {
               ),
               child: Container(
                 height: 60.0,
-                width: 325.0,
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: Row(
                   children: <Widget>[
-                    Expanded (
-                      child: new DropdownButton<String>(
+
+                       new DropdownButton<String>(
                         onChanged: (String newVal) {
 
                           setState(() {
                             selectedAction = newVal;
-                            print("Selected: ${selectedAction}");
+                            print("Selected: $selectedAction");
                           });
                         },
                         value: selectedAction,
@@ -169,7 +170,7 @@ class CustomScreenState extends State<CustomScreen>  {
                         hint: Text("Action"),
 
                       ),
-                    ),
+
                   ],
                 ),
               ),
@@ -177,6 +178,7 @@ class CustomScreenState extends State<CustomScreen>  {
             SizedBox(
               height: 5.0,
             ),
+
             Card(
               color: Colors.white,
               elevation: 10.0,
@@ -185,13 +187,13 @@ class CustomScreenState extends State<CustomScreen>  {
               ),
               child: Container(
                 height: 165.0,
-                width: 325.0,
+                padding: const EdgeInsets.all( 15.0),
                 child: Row(
                   children: <Widget>[
                     Expanded (
                       child: new Text(
-                        'Script:',
-                        textAlign: TextAlign.center,
+                        '$selectedAirport traffic, $selectedAircraft, $selectedAction $selectedHeading, $selectedAirport',
+                        textAlign: TextAlign.left,
                         style: TextStyle(
                           fontFamily: 'Roboto',
                           fontWeight: FontWeight.bold,
@@ -203,9 +205,21 @@ class CustomScreenState extends State<CustomScreen>  {
                 ),
               ),
             ),
+            SizedBox(
+              height: 40.0,
+            ),
+            FlatButton(
+              child: Icon(Icons.play_circle_filled,
+              size: 75,
+                  color: Colors.grey[700],
+              ),
+
+              onPressed: () {},
+            ),
           ],
         ),
       ),
+
     );
   }
 }
