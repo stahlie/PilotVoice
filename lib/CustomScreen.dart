@@ -1,96 +1,102 @@
 import 'package:flutter/material.dart';
+//import 'package:flutter_tts/flutter_tts.dart';
 //import 'package:package_info/package_info.dart';
+import 'dbHandler.dart';
+import 'AirportModel.dart';
 
 
 
-//   TODO: Need to change this from StatelessWidget to StatefulWidget
+//   TODO: Add Text-to-Speech
+//    TODO: Add SQFlite to work with database
+
 class CustomScreen extends StatefulWidget {
-  CustomScreen({Key key, this.title}) : super (key: key);
+ // CustomScreen({Key key, this.title}) : super (key: key);
 
-  final String title;
+ // final String title;
 
   @override
   CustomScreenState createState() => new CustomScreenState();
 
 }
 
-class CustomScreenState extends State<CustomScreen>  {
-  //String dropdownValue;
 
-  // ignore: unused_field
+class CustomScreenState extends State<CustomScreen>  {
+  DBProvider db = DBProvider();
+
   String selectedAirport;
   String selectedAction;
   String selectedAircraft;
   String selectedHeading;
+  String scriptLine;
+
+
+  AirportModel _currentAirport;
+
 
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      body:  new Center(
-        child: new Column(
+    double cWidth = MediaQuery.of(context).size.width*0.95;
+    return  Scaffold(
+      body:  Center(
+        child:  Column(
           children: <Widget>[
-
             SizedBox(
               height: 20.0,
             ),
             Card(
               color: Colors.white,
-              elevation: 10.0,
+              elevation: 5.0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0),
               ),
               child: Container(
                 height: 60.0,
-                //width: 325.0,
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
 
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                     Center (
+                      FutureBuilder<List<AirportModel>>(
+                        future: db.getAllAirports(),
+                        builder: (BuildContext context, AsyncSnapshot<List<AirportModel>> snapshot) {
+                          if (!snapshot.hasData) return CircularProgressIndicator();
+                           return DropdownButton<AirportModel>(items: snapshot.data.map((airportItem) =>
+                                DropdownMenuItem<AirportModel>(
+                                  child: Text(airportItem.airportName),
+                                  value: airportItem,
+                                ))
+                                .toList(),
+                            onChanged: (AirportModel value) {
+                              setState(() {
+                                if (snapshot.hasData) debugPrint(
+                                    "--------- snapshot is ${snapshot.data}");
+                                _currentAirport = value;
+                                selectedAirport = _currentAirport.airportName;
+                              });
+                            },
+                            value: _currentAirport,
+                            hint: Text("Airport"),
+                          );
+                        }),
 
-                      child: new DropdownButton<String>(
-
-                        onChanged: (String airportVal) {
-
-                          setState(() {
-
-                            selectedAirport = airportVal;
-
-                            print("Selected: $selectedAirport");
-                          });
-                        },
-                        value: selectedAirport,
-                        items: <String>['50R LocakHart', '3T5 Fayette', '84R Smithville', 'T91 Carter', 'GYB Giddings', 'T20 Dreyer', 'HYI San Macros', '66R Wells', 'RYW Lago Vista', '1T8 Bulverde', '3R9 Lakeway', 'T82 Gillespie'].map<DropdownMenuItem<String>>((String value) {
-                            return new DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          hint: Text("Airport"),
-
-                        ),
-                    ),
-
-                      new DropdownButton<String>(
-
+                       DropdownButton<String>(
                         onChanged: (String newVal) {
-
                           setState(() {
                             selectedHeading = newVal;
-                            print("Selected: $selectedHeading");
+                            debugPrint("Selected: $selectedHeading");
                           });
                         },
                         value: selectedHeading,
                         items: <String>['18', '36', '16', '35', '17', '13', '31', '8', '26', '14', '32'].map<DropdownMenuItem<String>>((String value) {
-                          return new DropdownMenuItem<String>(
+                          return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),
                           );
                         }).toList(),
                         hint: Text("Heading"),
                      ),
+
                   ],
                  ),
               ),
@@ -100,7 +106,7 @@ class CustomScreenState extends State<CustomScreen>  {
             ),
             Card(
               color: Colors.white,
-              elevation: 10.0,
+              elevation: 5.0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0),
               ),
@@ -113,7 +119,7 @@ class CustomScreenState extends State<CustomScreen>  {
 
                     Expanded (
 
-                      child: new DropdownButton<String>(
+                      child: DropdownButton<String>(
                         onChanged: (String newVal) {
 
                           setState(() {
@@ -123,14 +129,12 @@ class CustomScreenState extends State<CustomScreen>  {
                         },
                         value: selectedAircraft,
                         items: <String>['Tomahawk 	9 1 3 7 2', 'Warrior 	4 7 4 2 6', 'Cessna 	2 0 7 8 Z', 'Cessna 	7 3 5 K K'].map<DropdownMenuItem<String>>((String value) {
-                          return new DropdownMenuItem<String>(
+                          return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),
                           );
                         }).toList(),
                         hint: Text("Aircraft"),
-
-
                       ),
                     ),
                   ],
@@ -142,7 +146,7 @@ class CustomScreenState extends State<CustomScreen>  {
             ),
             Card(
               color: Colors.white,
-              elevation: 10.0,
+              elevation: 5.0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0),
               ),
@@ -152,9 +156,9 @@ class CustomScreenState extends State<CustomScreen>  {
                 child: Row(
                   children: <Widget>[
 
-                       new DropdownButton<String>(
+                       DropdownButton<String>(
                         onChanged: (String newVal) {
-
+                          print('==== newVal is $newVal');
                           setState(() {
                             selectedAction = newVal;
                             print("Selected: $selectedAction");
@@ -162,7 +166,7 @@ class CustomScreenState extends State<CustomScreen>  {
                         },
                         value: selectedAction,
                         items: <String>['Downwind', 'Base', 'Final'].map<DropdownMenuItem<String>>((String value) {
-                          return new DropdownMenuItem<String>(
+                          return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),
                           );
@@ -180,18 +184,19 @@ class CustomScreenState extends State<CustomScreen>  {
             ),
 
             Card(
+
               color: Colors.white,
-              elevation: 10.0,
+              elevation: 5.0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0),
               ),
-              child: Container(
-                height: 165.0,
-                padding: const EdgeInsets.all( 15.0),
-                child: Row(
+                child: Column (
                   children: <Widget>[
-                    Expanded (
-                      child: new Text(
+                    Container (
+                      height: 165.0,
+                      width: cWidth,
+                      padding: const EdgeInsets.all( 15.0),
+                      child: Text(
                         '$selectedAirport traffic, $selectedAircraft, $selectedAction $selectedHeading, $selectedAirport',
                         textAlign: TextAlign.left,
                         style: TextStyle(
@@ -203,14 +208,14 @@ class CustomScreenState extends State<CustomScreen>  {
                     ),
                   ],
                 ),
-              ),
+
             ),
             SizedBox(
-              height: 40.0,
+              height: 30.0,
             ),
             FlatButton(
               child: Icon(Icons.play_circle_filled,
-              size: 75,
+              size: 100,
                   color: Colors.grey[700],
               ),
 
@@ -222,4 +227,7 @@ class CustomScreenState extends State<CustomScreen>  {
 
     );
   }
+
+
 }
+
