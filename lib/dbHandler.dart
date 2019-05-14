@@ -1,6 +1,6 @@
 
 import 'dart:async';
-import 'package:async/async.dart';
+//import 'package:async/async.dart';
 import 'dart:io' as io;
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -22,13 +22,12 @@ class DBProvider {
 
   DBProvider.internal();
 
-  initDB() async {
-    print('==== Entering initDB');
+  Future<Database> initDB() async {
+
     io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, "assets/pilotvoice.db");
-    print('==== path is $path');
+
     var theDb = await openDatabase(path, version: 1); //, onCreate: _onCreate);
-    print('==== Leaving InitDB  theDb is $theDb');
     return theDb;
 
 
@@ -50,7 +49,7 @@ class DBProvider {
 
   Future<List<AirportModel>> getAllAirports() async {
    //   print("*****Entering getAllAirports*********");
-   //   return this._memoizer.runOnce(()   async {
+   //return this._memoizer.runOnce(()   async {
         print("=========== Entered getAllAirports========");
         var dbAirport = await db;
         String sql;
@@ -63,9 +62,7 @@ class DBProvider {
         List<AirportModel> list = result.map((item) {
          return AirportModel.fromMap(item);
         }).toList();
-        print("**** before result on way out of  getAllAirpots ****");
-        print(result);
-        print("list is $list");
+
         return list;
 
      // });
